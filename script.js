@@ -1,0 +1,1 @@
+<button onclick ="myFunction()">Check.</button>
