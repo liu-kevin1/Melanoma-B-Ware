@@ -23,12 +23,15 @@ def import_data():
     # bbox = obj['bounding_box']
     # return np.array([bbox['x'], bbox['y'], bbox['height'], bbox['width']], dtype='f')
     with open('./Revised.json') as json_file:
+        # json_file = json_file.readlines()
+        # print(myList)
         data = json.load(json_file)
         # print(data[0]['text'])
         # print(data)
         for line in data:
             # for p in line:
             print(line)
+            # print((line).encode('utf-8'))
         # print(np.array(data))
 
 import_data()
