@@ -36,21 +36,20 @@ import_data()
 
 df = pd.read_csv('Revised.csv')
 
-print(df.dtypes)
-
 labels = df.pop('truth')
+df.pop('index')
 
 dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
 
 for feat, label in dataset.take(5):
   print ('Features: {}, Labels: {}'.format(feat, label))
 
-# using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
-x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
+# # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
+# x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
 
-# datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
+# # datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
 
-# seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
-print(x_train, y_train)
-print("\n" + "----------------------------------------" + "\n")
-print(x_test, y_test)
+# # seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
+# print(x_train, y_train)
+# print("\n" + "----------------------------------------" + "\n")
+# print(x_test, y_test)
