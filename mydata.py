@@ -11,38 +11,59 @@ from sklearn.model_selection import train_test_split
 
 import json
 
-# from tensorflow.keras import layers
-# from tensorflow.keras import losses
-# from tensorflow.keras import preprocessing
-# from tensorflow.keras import utils
-# from tensorflow.keras.layers.experimental.preprocessing import TextVectorization
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# import tensorflow_datasets as tfds
+# def import_data():
+#     # obj = json.loads('./Revised.json').decode('utf-8')
+#     # bbox = obj['bounding_box']
+#     # return np.array([bbox['x'], bbox['y'], bbox['height'], bbox['width']], dtype='f')
+#     with open('./Revised.json') as json_file:
+#         data = json.load(json_file)
+#         # print(data[0]['text'])
+#         # print(data)
+#         for line in data:
+#             # for p in line:
+#             print(line)
+#         # print(np.array(data))
 
-def import_data():
-    # obj = json.loads('./Revised.json').decode('utf-8')
-    # bbox = obj['bounding_box']
-    # return np.array([bbox['x'], bbox['y'], bbox['height'], bbox['width']], dtype='f')
-    with open('./Revised.json') as json_file:
-        data = json.load(json_file)
-        # print(data[0]['text'])
-        # print(data)
-        for line in data:
-            # for p in line:
-            print(line)
-        # print(np.array(data))
+# import_data()
 
-import_data()
+# df = pd.read_csv('Revised.csv')
+true = pd.read_csv('./True.csv')
+fake = pd.read_csv('./Fake.csv')
 
-df = pd.read_csv('Revised.csv')
+true['truth'] = 1
+fake['truth'] = 0
 
-labels = df.pop('truth')
-df.pop('index')
+# Combining the title and text columns on both true and false csvs so that the input data is simplified.
+true['article'] = true['title'] + true['text'] 
+fake['article'] = fake['title'] + fake['text'] 
 
-dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
+combined_data = pd.concat([fake, true])
 
-for feat, label in dataset.take(5):
-  print ('Features: {}, Labels: {}'.format(feat, label))
+features = combined_data['article']
+labels = combined_data['truth']
+
+x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.25, shuffle=True)
+
+max_words = 2000
+max_len = 400
+
+token = Tokenizer(num_words=max_words, lower=True, split=' ')
+token.fit_on_texts(x_train.values)
+sequences = token.texts_to_sequences(x_train.values)
+train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+
+# features = df.copy()
+# labels = df.pop('truth')
+
+# df.pop('index')
+
+# dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
+
+# for feat, label in dataset.take(5):
+#   print ('Features: {}, Labels: {}'.format(feat, label))
 
 # # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
 # x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
