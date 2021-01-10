@@ -14,6 +14,7 @@ import json
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow import keras
 
 global last_log_time
 last_log_time = time.time()
@@ -43,9 +44,9 @@ log("Starting")
 
 # df = pd.read_csv('Revised.csv')
 true = pd.read_csv('./True.csv')
-true = true.head(100) # REMOVE THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
+# true = true.head(5000) # REMOVE/COMMENT THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 fake = pd.read_csv('./Fake.csv')
-fake = fake.head(100) # REMOVE THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
+# fake = fake.head(5000) # REMOVE/COMMENT THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 print(true.keys())
 print(fake.keys())
 log("Read input files")
@@ -105,3 +106,23 @@ print("-" * 10)
 # print(x_test[0], y_test[0])
 
 log("Done")
+
+model = keras.Sequential()
+model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
+model.add(keras.layers.GlobalAveragePooling1D())
+model.add(keras.layers.Dense(16, activation='relu'))
+model.add(keras.layers.Dense(1, activation='sigmoid'))
+
+model.summary()
+
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.25)
+
+# Using the tokenizer for our test data
+token.fit_on_texts(x_test.values)
+sequences = token.texts_to_sequences(x_test.values)
+train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+
+results = model.evaluate(train_sequences_padded, y_test)
+print(results)
