@@ -105,5 +105,3 @@ print("-" * 10)
 # print(x_test[0], y_test[0])
 
 log("Done")
-
-model = keras.Sequential()
