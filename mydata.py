@@ -43,7 +43,9 @@ log("Starting")
 
 # df = pd.read_csv('Revised.csv')
 true = pd.read_csv('./True.csv')
+true = true.head(100) # REMOVE THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 fake = pd.read_csv('./Fake.csv')
+fake = fake.head(100) # REMOVE THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 print(true.keys())
 print(fake.keys())
 log("Read input files")
@@ -103,3 +105,5 @@ print("-" * 10)
 # print(x_test[0], y_test[0])
 
 log("Done")
+
+model = keras.Sequential()
