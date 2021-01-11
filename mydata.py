@@ -5,6 +5,7 @@
 import time
 
 import tensorflow as tf
+import tensorflowjs as tfjs
 
 import numpy as np
 import pandas as pd
@@ -161,3 +162,5 @@ sequences = token.texts_to_sequences("test one two there trump bad smh fake news
 train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
 
 print(model.predict(train_sequences_padded)[0][0])
+
+tfjs.converters.save_keras_model(model, './model-to-js')
