@@ -16,6 +16,8 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow import keras
 
+import matplotlib.pyplot as plt
+
 global last_log_time
 last_log_time = time.time()
 
@@ -117,9 +119,31 @@ log("Model created")
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.75)
+history = model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.5)
+
+print(history.history.keys())
+
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('training model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('training model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'val'], loc='upper left')
+plt.show()
+
+
 
 log("Training finished")
+
+
 
 # Using the tokenizer for our test data
 token.fit_on_texts(x_test.values)
