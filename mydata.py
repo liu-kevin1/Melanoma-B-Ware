@@ -65,7 +65,7 @@ log("Combined data")
 features = combined_data['article']
 labels = combined_data['truth']
 
-x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.25, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, shuffle=True)
 
 log("Split data into Training and Testing")
 
