@@ -110,7 +110,7 @@ log("Done")
 model = keras.Sequential()
 model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
 model.add(keras.layers.GlobalAveragePooling1D())
-model.add(keras.layers.Dense(16, activation='relu'))
+model.add(keras.layers.Dense(16, activation='softmax'))
 model.add(keras.layers.Dense(1, activation='sigmoid'))
 
 model.summary()
