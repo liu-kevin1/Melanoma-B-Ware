@@ -1,0 +1,16 @@
+html,
+body {
+    height: 100%;
+}
+
+.main-div {
+    width: 100%;
+    text-align: center;
+}
+
+.container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
