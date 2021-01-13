@@ -5,18 +5,32 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Website Basis</title>
+  <link rel="stylesheet" href="style.css">
+
 
   <!-- Import TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
   <!-- Import tfjs-vis -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+  <!-- <! -- Import Bootstrap --> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script src="data.js" type="module"></script>
 
   <!-- Import the main script file -->
   
   <script src="script.js"></script>
-  <p>By inputting a text file of a news article, we will check whether or not it is true. </p>
+  <div class='align-items-center main-div'>
+    <p class='text-align-center font-weight-bold'>News Checker</p>
+    <p>By inputting a text file of a news article, we will check whether or not it is true. </p>
+    <!-- <form action='./data.js' method='post'> -->
+    <textarea name="article" id="Article" placeholder="Article name and some text"></textarea>
+    <button type="button" id="submit" class="btn btn-info" type="submit" name="submit">Submit</button>    
+    <!-- </form> -->
+    <p>New Checker Output: <span id="output">____</span></p>
+  </div>
 </head>
 
 <body>
