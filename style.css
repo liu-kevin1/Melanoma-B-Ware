@@ -6,6 +6,8 @@ body {
 .main-div {
     width: 100%;
     text-align: center;
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .container {
@@ -13,4 +15,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.description {
+    font-family: 'Lato';
+    font-size: 20;
 }
