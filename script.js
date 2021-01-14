@@ -20,14 +20,14 @@ async function test() {
 // model.execute(tf.browser.fromPixels(cat));
 // const example = 
 
-// var submit = document.getElementById("submit");
-// submit.onclick = function() {
-//     var message = document.getElementById("message").value;
+var submit = document.getElementById("submit");
+submit.onclick = function() {
+    var message = document.getElementById("article").value;
     
-//     var output = model.predict(message);
+    var output = model.predict(message);
 
-//     document.getElementById('output').innerText = output;    
-// }
+    document.getElementById('output').innerText = message;    
+}
 
 
 var mod = test();
