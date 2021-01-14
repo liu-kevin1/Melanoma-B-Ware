@@ -58,8 +58,8 @@ true['truth'] = 1
 fake['truth'] = 0
 
 # Combining the title and text columns on both true and false csvs so that the input data is simplified.
-true['article'] = true['title'] + true['text'] 
-fake['article'] = fake['title'] + fake['text'] 
+true['article'] = true['title'] + " " + true['text'] 
+fake['article'] = fake['title'] + " " + fake['text'] 
 
 combined_data = pd.concat([fake, true])
 
@@ -73,7 +73,7 @@ x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=
 log("Split data into Training and Testing")
 
 max_words = 2000
-max_len = 400
+max_len = 800
 
 token = Tokenizer(num_words=max_words, lower=True, split=' ')
 token.fit_on_texts(x_train.values)
@@ -147,9 +147,11 @@ log("Training finished")
 
 
 # Using the tokenizer for our test data
-token.fit_on_texts(x_test.values)
+token.fit_on_texts(x_train.values)
 sequences = token.texts_to_sequences(x_test.values)
+# print(x_test.values)
 train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# print(train_sequences_padded)
 
 results = model.evaluate(train_sequences_padded, y_test)
 
@@ -158,9 +160,13 @@ log("Testing finished")
 print("Loss: %.5f\nAccuracy: %.5f" % (results[0], results[1]))
 
 token = Tokenizer(num_words=max_words, lower=True, split=' ')
-sequences = token.texts_to_sequences("test one two there trump bad smh fake news")
+token.fit_on_texts(x_train.values)
+sequences = token.texts_to_sequences(["i hate trump he is fake news"])
+print("i hate trump he is fake news")
 train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+print(train_sequences_padded)
 
 print(model.predict(train_sequences_padded)[0][0])
 
-tfjs.converters.save_keras_model(model, './model-to-js')
+# model.save('./model-to-py/model-to-py.h5')
+# tfjs.converters.save_keras_model(model, './model-to-js')
