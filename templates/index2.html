@@ -33,7 +33,7 @@
     <p class='text-align-center font-weight-bold h1'><strong>News Checker</strong></p>
     <p class='description'>By inputting a text file of a news article, we will check whether or not it is true. </p>
     <!-- <form action='./data.js' method='post'> -->
-    <form action="/button" method="post">
+    <form method="POST">
     <!-- <textarea name="article" id="article" placeholder="Article name and some text"></textarea> -->
     <!-- <label for='article'>Article:</label><input id='article' type='text'/><br/><br/> -->
         <input type="text" value="Enter text">
@@ -42,6 +42,11 @@
     <!-- <button type="button" id="submit" class="btn btn-info" type="submit" name="submit">Submit</button> -->  
     <!-- </form> -->
     <p>New Checker Output: <span id="output">{{ text }}</span></p>
+
+    <form method="POST">
+      <input name="text">
+      <input type="submit">
+  </form>
   </div>
 </head>
 

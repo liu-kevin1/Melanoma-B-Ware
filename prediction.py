@@ -38,9 +38,9 @@ def log(message):
 
 log("start")
 
-data = 0
-with open('./jsonfile.json') as json_file:
-    data = json.load(json_file)
+# data = 0
+# with open('./jsonfile.json') as json_file:
+#     data = json.load(json_file)
 
 log("loaded json")
 

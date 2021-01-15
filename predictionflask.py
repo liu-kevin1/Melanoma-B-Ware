@@ -102,6 +102,10 @@ log("padded sequences")
 var = model.predict(train_sequences_padded)[0][0]
 log("created model prediction")
 
+# uncomment these after filling them out
+# true_gif = 0 
+# fake_gif = 0
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -110,3 +114,24 @@ app = Flask(__name__)
 def test():
     text = var
     return render_template("index2.html", text=text)
+
+@app.route('/', methods=['POST'])
+def my_form_post():
+    print("form post")
+    text = request.form['text']
+    processed_text = text.upper()
+    
+    sequences = token.texts_to_sequences([processed_text])
+    train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+
+    result = model.predict(train_sequences_padded)[0][0]
+
+    result_gif = 0
+
+    # uncomment this after filling out true and fake gif
+    # if result > 0.5:
+    #     result_gif = true_gif
+    # else:
+    #     result_gif = fake_gif
+
+    return render_template("index2.html", text=result, result_gif=result_gif)
