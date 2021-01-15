@@ -77,96 +77,96 @@ max_len = 800
 
 token = Tokenizer(num_words=max_words, lower=True, split=' ')
 token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences(x_train.values)
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# sequences = token.texts_to_sequences(x_train.values)
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
 
-log("Tokenized data")
+# log("Tokenized data")
 
-# features = df.copy()
-# labels = df.pop('truth')
+# # features = df.copy()
+# # labels = df.pop('truth')
 
-# df.pop('index')
+# # df.pop('index')
 
-# dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
+# # dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
 
-# for feat, label in dataset.take(5):
-#   print ('Features: {}, Labels: {}'.format(feat, label))
+# # for feat, label in dataset.take(5):
+# #   print ('Features: {}, Labels: {}'.format(feat, label))
 
-# # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
-# x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
+# # # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
+# # x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
 
-# # datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
+# # # datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
 
-# # seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
+# # # seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
 
-# print("-" * 10)
-# print(sequences)
-# print("-" * 10)
+# # print("-" * 10)
+# # print(sequences)
+# # print("-" * 10)
+# # print(train_sequences_padded)
+# # print("-" * 10)
+# # print(x_train[0], y_train[0])
+# # print("\n" + "----------------------------------------" + "\n")
+# # print(x_test[0], y_test[0])
+
+# model = keras.Sequential()
+# model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
+# model.add(keras.layers.GlobalAveragePooling1D())
+# model.add(keras.layers.Dense(256, activation='softmax'))
+# model.add(keras.layers.Dense(1, activation='sigmoid'))
+
+# model.summary()
+
+# log("Model created")
+
+# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# history = model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.5)
+
+# print(history.history.keys())
+
+# plt.plot(history.history['accuracy'])
+# plt.plot(history.history['val_accuracy'])
+# plt.title('training model accuracy')
+# plt.ylabel('accuracy')
+# plt.xlabel('epoch')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.show()
+
+# plt.plot(history.history['loss'])
+# plt.plot(history.history['val_loss'])
+# plt.title('training model loss')
+# plt.ylabel('loss')
+# plt.xlabel('epoch')
+# plt.legend(['train', 'val'], loc='upper left')
+# plt.show()
+
+
+
+# log("Training finished")
+
+
+
+# # Using the tokenizer for our test data
+# token.fit_on_texts(x_train.values)
+# sequences = token.texts_to_sequences(x_test.values)
+# # print(x_test.values)
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# # print(train_sequences_padded)
+
+# results = model.evaluate(train_sequences_padded, y_test)
+
+# log("Testing finished")
+
+# print("Loss: %.5f\nAccuracy: %.5f" % (results[0], results[1]))
+
+# token = Tokenizer(num_words=max_words, lower=True, split=' ')
+# token.fit_on_texts(x_train.values)
+# sequences = token.texts_to_sequences([true['article'].iloc[0]])
+# print(true['article'].iloc[0])
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
 # print(train_sequences_padded)
-# print("-" * 10)
-# print(x_train[0], y_train[0])
-# print("\n" + "----------------------------------------" + "\n")
-# print(x_test[0], y_test[0])
 
-model = keras.Sequential()
-model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
-model.add(keras.layers.GlobalAveragePooling1D())
-model.add(keras.layers.Dense(256, activation='softmax'))
-model.add(keras.layers.Dense(1, activation='sigmoid'))
+# print(model.predict(train_sequences_padded)[0][0])
 
-model.summary()
-
-log("Model created")
-
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-history = model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.5)
-
-print(history.history.keys())
-
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
-plt.title('training model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
-
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('training model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
-
-
-
-log("Training finished")
-
-
-
-# Using the tokenizer for our test data
-token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences(x_test.values)
-# print(x_test.values)
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
-# print(train_sequences_padded)
-
-results = model.evaluate(train_sequences_padded, y_test)
-
-log("Testing finished")
-
-print("Loss: %.5f\nAccuracy: %.5f" % (results[0], results[1]))
-
-token = Tokenizer(num_words=max_words, lower=True, split=' ')
-token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences(["i hate trump he is fake news"])
-print("i hate trump he is fake news")
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
-print(train_sequences_padded)
-
-print(model.predict(train_sequences_padded)[0][0])
-
-# model.save('./model-to-py/model-to-py.h5')
-# tfjs.converters.save_keras_model(model, './model-to-js')
+# # model.save('./model-to-py/model-to-py.h5')
+# # tfjs.converters.save_keras_model(model, './model-to-js')

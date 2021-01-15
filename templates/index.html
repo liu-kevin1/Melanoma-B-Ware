@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Basis</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+
+
+
+  <!-- Import TensorFlow.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+  <!-- Import tfjs-vis -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+  <!-- <! -- Import Bootstrap --> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js "></script>  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Latest compiled and minified JavaScript -->
+
+
+
+  <script src="node_modules/requirejs/require.js"></script>
+
+
+  <!-- Import the main script file -->
+  
+  <!-- <script src="script.js"></script> -->
+  <div class='align-items-center main-div'>
+    <p class='text-align-center font-weight-bold h1'><strong>News Checker</strong></p>
+    <p class='description'>By inputting a text file of a news article, we will check whether or not it is true. </p>
+    <!-- <form action='./data.js' method='post'> -->
+    <textarea name="article" id="article" placeholder="Article name and some text"></textarea>
+    <!-- <label for='article'>Article:</label><input id='article' type='text'/><br/><br/> -->
+    <button type="button" id="submit" class="btn btn-info" type="submit" name="submit">Submit</button>    
+    <!-- </form> -->
+    <p>New Checker Output: <span id="output">{{ text }}</span></p>
+  </div>
+</head>
+
+<body>
+
+</body>
+<script src="script.js" type="module"></script>
+
+</html>
