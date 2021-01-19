@@ -8,7 +8,60 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 
+  <style>
+  
+* {
+  box-sizing: border-box;
+}
 
+body {
+  font-family: 'Trebuchet MS';
+}
+
+section {
+  display: -webkit-flex;
+  display: flex;
+}
+
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background: rgb(150, 116, 228);
+  padding: 20px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  -webkit-flex: 3;
+  -ms-flex: 3;
+  flex: 3;
+  background-color:rgba(151, 245, 245, 0.884);
+  padding: 10px;
+}
+
+
+footer {
+  background-color: rgb(231, 233, 127);
+  padding: 10px;
+  text-align: center;
+  
+}
+
+/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+@media (max-width: 600px) {
+  section {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+  
 
   <!-- Import TensorFlow.js -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
@@ -29,29 +82,36 @@
   <!-- Import the main script file -->
   
   <!-- <script src="script.js"></script> -->
-  <div class='align-items-center main-div'>
-    <p class='text-align-center font-weight-bold h1'><strong>News Checker</strong></p>
-    <p class='description'>By inputting a text file of a news article, we will check whether or not it is true. </p>
-    <!-- <form action='./data.js' method='post'> -->
-    <form method="POST">
-    <!-- <textarea name="article" id="article" placeholder="Article name and some text"></textarea> -->
-    <!-- <label for='article'>Article:</label><input id='article' type='text'/><br/><br/> -->
-        <input type="text" value="Enter text">
-        <input type="submit" value="Submit">
-    </form>
-    <!-- <button type="button" id="submit" class="btn btn-info" type="submit" name="submit">Submit</button> -->  
-    <!-- </form> -->
-    <p>New Checker Output: <span id="output">{{ text }}</span></p>
-
-    <form method="POST">
-      <input name="text">
-      <input type="submit">
-  </form>
-  </div>
-</head>
 
 <body>
-
+  <header style="text-align:center; background-color:rgba(231, 163, 151, 0.925);color:navy;font-size:60px"><strong>News Checker</strong></header>
+  <section>
+    <nav>
+      <ul>
+        <strong style="font-size:20px;color:white">
+          <li><a href="https://github.com/liu-kevin1/News-Checker" >GitHub Link For More Information</a></li>
+          <br>
+          <li><a href="https://docs.google.com/spreadsheets/d/15GV7LEp4jb17sMnCCunOLwudzfF3n4AHMlVUXLquCD4/edit#gid=0">Project Log</a></li>
+          <br>
+          <li><a href="https://docs.google.com/spreadsheets/d/1JZHhUgD_6S0QkTnr_tSu8barrIEHfh5Xjm3Hik9n5Ug/edit#gid=0">Frees Log</a></li>
+        </strong>
+      </ul>
+    </nav>
+    <article>
+      <!-- <form action='./data.js' method='post'> -->
+        <h1>By inputting a text file of a news article,we will check whether or not it is true.</h1>
+      <form action="/button" method="post">
+        <textarea name="article" id="article" placeholder="Article name and some text" cols="100" rows="30"></textarea>
+        <!-- <label for='article'>Article:</label><input id='article' type='text'/><br/><br/> -->
+        <input type="submit" value="Submit" style="font-size:larger">
+        <!-- <button type="button" id="submit" class="btn btn-info" type="submit" name="submit">Submit</button> -->  
+        <!-- </form> -->
+      </form>
+    </article>
+  </section>
+  <footer>
+    <p>New Checker Output: <span id="output">{{ text }}</span></p>
+  </footer>
 </body>
 <script src="script.js" type="module"></script>
 
