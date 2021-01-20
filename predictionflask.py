@@ -113,7 +113,7 @@ app = Flask(__name__)
 @app.route('/')
 def test():
     text = var
-    return render_template("index2.html", text=text)
+    return render_template("index3.html", text=text)
 
 @app.route('/', methods=['POST'])
 def my_form_post():
@@ -134,4 +134,4 @@ def my_form_post():
     # else:
     #     result_gif = fake_gif
 
-    return render_template("index2.html", text=result, result_gif=result_gif)
+    return render_template("index3.html", text=result, result_gif=result_gif)
