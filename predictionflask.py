@@ -103,8 +103,8 @@ var = model.predict(train_sequences_padded)[0][0]
 log("created model prediction")
 
 # uncomment these after filling them out
-# true_gif = 0 
-# fake_gif = 0
+true_gif = "https://media0.giphy.com/media/26tknCqiJrBQG6bxC/giphy.gif?cid=ecf05e47aazf4m39z98yl2wyputdyltkgsuki2hsl53e1meh&rid=giphy.gif"
+fake_gif = "https://media2.giphy.com/media/3oz8xLd9DJq2l2VFtu/giphy.gif"
 
 from flask import Flask, render_template, request
 
@@ -127,11 +127,12 @@ def my_form_post():
     result = model.predict(train_sequences_padded)[0][0]
 
     result_gif = 0
+    # result_gif = "https://cdn.discordapp.com/attachments/724396600381669389/804048222733336614/unknown.png"
 
     # uncomment this after filling out true and fake gif
-    # if result > 0.5:
-    #     result_gif = true_gif
-    # else:
-    #     result_gif = fake_gif
+    if result > 0.5:
+        result_gif = true_gif
+    else:
+        result_gif = fake_gif
 
     return render_template("index3.html", text=result, result_gif=result_gif)
