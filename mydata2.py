@@ -1,4 +1,3 @@
-
 # import collections
 # import pathlib
 # import re
@@ -48,8 +47,11 @@ log("Starting")
 
 # df = pd.read_csv('Revised.csv')
 true = pd.read_csv('./True.csv')
+true = true.fillna(' ')
 # true = true.head(5000) # REMOVE/COMMENT THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 fake = pd.read_csv('./Fake.csv')
+fake = fake.fillna(' ')
+
 # fake = fake.head(5000) # REMOVE/COMMENT THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 # print(true.keys())
 # print(fake.keys())
@@ -73,13 +75,20 @@ x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=
 
 log("Split data into Training and Testing")
 
-max_words=150
-max_len = 900
+# max_words = 400
+max_len = 500
 
-token = Tokenizer(num_words=max_words, lower=True, split=' ')
-token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences(x_train.values)
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# token = Tokenizer(num_words=max_words, lower=True, split=' ')
+# token = Tokenizer(lower=True, split=' ')
+# token.fit_on_texts(x_train.values)
+# sequences = token.texts_to_sequences(x_train.values)
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len, padding='post', truncating='post')
+
+token = Tokenizer(lower=True, split=' ')
+token.fit_on_texts(features.values)
+sequences = token.texts_to_sequences(features.values)
+train_sequences_padded = pad_sequences(sequences, maxlen=max_len, padding='post', truncating='post')
+
 
 log("Tokenized data")
 
@@ -108,27 +117,24 @@ log("Tokenized data")
 # print(x_train[0], y_train[0])
 # print("\n" + "----------------------------------------" + "\n")
 # print(x_test[0], y_test[0])
-
-# model = keras.Sequential()
-# model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
-# model.add(keras.layers.GlobalAveragePooling1D()) 
-# model.add(keras.layers.Dense(256, activation='softmax'))
-# model.add(keras.layers.Dense(1, activation='sigmoid'))
-
 model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(max_words, 16, input_length=max_len), #16
-    # tf.keras.layers.Embedding(vocab_size+1, 100),
+    tf.keras.layers.Embedding(vocab_size+1, 100, weights=[embeddings_matrix], trainable=False),
     tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Conv1D(32, 5, activation='relu'), #32, 5
-    tf.keras.layers.MaxPooling1D(pool_size=3), #4
-    tf.keras.layers.LSTM(20, return_sequences=True), #20
-    tf.keras.layers.LSTM(20), #20
+    tf.keras.layers.Conv1D(64, 5, activation='relu'),
+    tf.keras.layers.MaxPooling1D(pool_size=4),
+    tf.keras.layers.LSTM(20, return_sequences=True),
+    tf.keras.layers.LSTM(20),
     tf.keras.layers.Dropout(0.2),  
-    tf.keras.layers.Dense(512), #512
+    tf.keras.layers.Dense(512),
     tf.keras.layers.Dropout(0.3),  
-    tf.keras.layers.Dense(256), #256
+    tf.keras.layers.Dense(256),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
+])
+# model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
+# model.add(keras.layers.GlobalAveragePooling1D())
+# model.add(keras.layers.Dense(256, activation='softmax'))
+# model.add(keras.layers.Dense(1, activation='sigmoid'))
 
 model.summary()
 
@@ -136,7 +142,8 @@ log("Model created")
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-history = model.fit(train_sequences_padded, y_train, batch_size=128, epochs=3, validation_split=0.4)
+history = model.fit(train_sequences_padded, y_train, batch_size=64, epochs=6, validation_split=0.4)
+
 print(history.history.keys())
 
 plt.plot(history.history['accuracy'])
@@ -184,4 +191,4 @@ print(train_sequences_padded)
 print(model.predict(train_sequences_padded)[0][0])
 
 model.save('./model-to-py/model-to-py2.h5')
-# # tfjs.converters.save_keras_model(model, './model-to-js')
+# tfjs.converters.save_keras_model(model, './model-to-js')

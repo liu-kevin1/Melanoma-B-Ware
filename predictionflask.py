@@ -85,8 +85,8 @@ log("loaded model")
 
 # log("Split data into Training and Testing")
 
-max_words = 2000
-max_len = 800
+max_words = 200
+max_len = 1000
 
 # token = Tokenizer(num_words=max_words, lower=True, split=' ')
 # log("created tokenizer")
