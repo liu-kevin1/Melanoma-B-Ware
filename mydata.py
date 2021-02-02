@@ -46,7 +46,7 @@ log("Starting")
 
 # import_data()
 
-# df = pd.read_csv('Revised.csv')
+df = pd.read_csv('Revised.csv')
 true = pd.read_csv('./True.csv')
 # true = true.head(5000) # REMOVE/COMMENT THIS LINE IF YOU WANT TO TAKE THE ENTIRE CSV
 fake = pd.read_csv('./Fake.csv')
@@ -69,12 +69,12 @@ log("Combined data")
 features = combined_data['article']
 labels = combined_data['truth']
 
-x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, shuffle=True)
+x_train, x_test, y_train, y_test = train_test_split(features, labels, test_size=0.25, shuffle=True)
 
 log("Split data into Training and Testing")
 
-max_words=150
-max_len = 900
+max_words= 2000
+max_len = 800
 
 token = Tokenizer(num_words=max_words, lower=True, split=' ')
 token.fit_on_texts(x_train.values)
@@ -83,31 +83,31 @@ train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
 
 log("Tokenized data")
 
-# features = df.copy()
-# labels = df.pop('truth')
+# # features = df.copy()
+# # labels = df.pop('truth')
 
-# df.pop('index')
+# # df.pop('index')
 
-# dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
+# # dataset = tf.data.Dataset.from_tensor_slices((df.values, labels.values))
 
-# for feat, label in dataset.take(5):
-#   print ('Features: {}, Labels: {}'.format(feat, label))
+# # for feat, label in dataset.take(5):
+# #   print ('Features: {}, Labels: {}'.format(feat, label))
 
-# # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
-# x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
+# # # using sklearn's train_test_split function below (test_size=0.25 means test set will be 1/4 size portion of training set)
+# # x_train, x_test, y_train, y_test = train_test_split(df['text'], df['truth'], test_size=0.25, shuffle=True)
 
-# # datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
+# # # datatypes of all four of these sets are a pandas "Series" which act very similar to Python lists, but I think the indices are inconsistent
 
-# # seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
+# # # seeing what our sets would print (x sets should print text, while y sets should print labels aka truth)
 
-# print("-" * 10)
-# print(sequences)
-# print("-" * 10)
-# print(train_sequences_padded)
-# print("-" * 10)
-# print(x_train[0], y_train[0])
-# print("\n" + "----------------------------------------" + "\n")
-# print(x_test[0], y_test[0])
+# # print("-" * 10)
+# # print(sequences)
+# # print("-" * 10)
+# # print(train_sequences_padded)
+# # print("-" * 10)
+# # print(x_train[0], y_train[0])
+# # print("\n" + "----------------------------------------" + "\n")
+# # print(x_test[0], y_test[0])
 
 # model = keras.Sequential()
 # model.add(keras.layers.Embedding(max_words, 16, input_length=max_len))
@@ -115,73 +115,69 @@ log("Tokenized data")
 # model.add(keras.layers.Dense(256, activation='softmax'))
 # model.add(keras.layers.Dense(1, activation='sigmoid'))
 
-model = tf.keras.Sequential([
-    tf.keras.layers.Embedding(max_words, 16, input_length=max_len), #16
-    # tf.keras.layers.Embedding(vocab_size+1, 100),
-    tf.keras.layers.Dropout(0.2),
-    tf.keras.layers.Conv1D(32, 5, activation='relu'), #32, 5
-    tf.keras.layers.MaxPooling1D(pool_size=3), #4
-    tf.keras.layers.LSTM(20, return_sequences=True), #20
-    tf.keras.layers.LSTM(20), #20
-    tf.keras.layers.Dropout(0.2),  
-    tf.keras.layers.Dense(512), #512
-    tf.keras.layers.Dropout(0.3),  
-    tf.keras.layers.Dense(256), #256
-    tf.keras.layers.Dense(1, activation='sigmoid')
-])
+# # model = tf.keras.Sequential([
+# #     tf.keras.layers.Embedding(max_words, 16, input_length=max_len), #16
+# #     # tf.keras.layers.Embedding(vocab_size+1, 100),
+# #     tf.keras.layers.Dropout(0.2),
+# #     tf.keras.layers.Conv1D(32, 5, activation='relu'), #32, 5
+# #     tf.keras.layers.MaxPooling1D(pool_size=3), #4
+# #     tf.keras.layers.LSTM(20, return_sequences=True), #20
+# #     tf.keras.layers.LSTM(20), #20
+# #     tf.keras.layers.Dropout(0.2),  
+# #     tf.keras.layers.Dense(512), #512
+# #     tf.keras.layers.Dropout(0.3),  
+# #     tf.keras.layers.Dense(256), #256
+# #     tf.keras.layers.Dense(1, activation='sigmoid')
+# # ])
 
-model.summary()
+# model.summary()
 
-log("Model created")
+# log("Model created")
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+# model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-history = model.fit(train_sequences_padded, y_train, batch_size=128, epochs=3, validation_split=0.4)
-print(history.history.keys())
+# history = model.fit(train_sequences_padded, y_train, batch_size=32, epochs=5, validation_split=0.5)
+# print(history.history.keys())
 
-plt.plot(history.history['accuracy'])
-plt.plot(history.history['val_accuracy'])
-plt.title('training model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
+# # plt.plot(history.history['accuracy'])
+# # plt.plot(history.history['val_accuracy'])
+# # plt.title('training model accuracy')
+# # plt.ylabel('accuracy')
+# # plt.xlabel('epoch')
+# # plt.legend(['train', 'val'], loc='upper left')
+# # plt.show()
 
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('training model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'val'], loc='upper left')
-plt.show()
+# # plt.plot(history.history['loss'])
+# # plt.plot(history.history['val_loss'])
+# # plt.title('training model loss')
+# # plt.ylabel('loss')
+# # plt.xlabel('epoch')
+# # plt.legend(['train', 'val'], loc='upper left')
+# # plt.show()
 
+# log("Training finished")
 
+# # Using the tokenizer for our test data
+# token.fit_on_texts(x_train.values)
+# sequences = token.texts_to_sequences(x_test.values)
+# # print(x_test.values)
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# # print(train_sequences_padded)
 
-log("Training finished")
+# results = model.evaluate(train_sequences_padded, y_test)
 
+# log("Testing finished")
 
+# print("Loss: %.5f\nAccuracy: %.5f" % (results[0], results[1]))
 
-# Using the tokenizer for our test data
-token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences(x_test.values)
-# print(x_test.values)
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
+# token = Tokenizer(num_words=max_words, lower=True, split=' ')
+# token.fit_on_texts(x_train.values)
+# sequences = token.texts_to_sequences([true['article'].iloc[0]])
+# print(true['article'].iloc[0])
+# train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
 # print(train_sequences_padded)
 
-results = model.evaluate(train_sequences_padded, y_test)
+# print(model.predict(train_sequences_padded)[0][0])
 
-log("Testing finished")
-
-print("Loss: %.5f\nAccuracy: %.5f" % (results[0], results[1]))
-
-token = Tokenizer(num_words=max_words, lower=True, split=' ')
-token.fit_on_texts(x_train.values)
-sequences = token.texts_to_sequences([true['article'].iloc[0]])
-print(true['article'].iloc[0])
-train_sequences_padded = pad_sequences(sequences, maxlen=max_len)
-print(train_sequences_padded)
-
-print(model.predict(train_sequences_padded)[0][0])
-
-model.save('./model-to-py/model-to-py2.h5')
-# # tfjs.converters.save_keras_model(model, './model-to-js')
+# model.save('./model-to-py/model-to-py.h5')
+# # # tfjs.converters.save_keras_model(model, './model-to-js')
